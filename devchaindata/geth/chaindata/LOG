@@ -1,0 +1,6 @@
+=============== Jun 2, 2020 (IST) ===============
+16:54:45.736383 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:54:45.885602 db@open opening
+16:54:45.972469 version@stat F·[] S·0B[] Sc·[]
+16:54:46.103233 db@janitor F·2 G·0
+16:54:46.103272 db@open done T·217.62695ms
