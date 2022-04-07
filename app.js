@@ -16,8 +16,8 @@ web3 = new Web3("http://Ganache:8545");
 
 //-- Edit Start Here ---
 
-let coinbase;
-coinbase = setAddress();
+// let coinbase;
+// coinbase = setAddress();
 contractAddress = supplychain.networks["5777"].address;
 var contractAbi = supplychain.abi;
 
@@ -66,10 +66,6 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-async function setAddress() {
-  let accounts = await web3.eth.getAccounts();
-  let coinbase = accounts[0];
-  return coinbase;
-}
+
 
 module.exports = app;

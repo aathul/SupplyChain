@@ -2,7 +2,12 @@ var express = require('express');
 var { create } = require('ipfs-http-client');
 var router = express.Router();
 const ipfs = create("https://ipfs.infura.io:5001/api/v0");
-
+async function setAddress() {
+  let accounts = await web3.eth.getAccounts();
+  let coinbase = accounts[0];
+  console.log("coinbase",coinbase)
+  return coinbase;
+}
 router.get('/', function (req, res, next) {
     res.render('index');
 });
@@ -151,9 +156,10 @@ router.post('/getProduct', async function (req, res, next) {
 //     res.render("customer_view_products", { myData: [dataregister] });
 // });
 
-router.post('/getreport', function (req, res, next) {
+router.post('/getreport',async function (req, res, next) {
     data = req.body;
     console.log("data", data);
+    let coinbase = await setAddress();
     message.methods.getCertificate(data.id)
         .call({ from: coinbase }).then((val) => {
             ipfspath = 'https://ipfs.infura.io/ipfs/' + web3.utils.hexToUtf8(val);
@@ -185,6 +191,7 @@ router.get('/owner', function (req, res, next) {
 router.get('/ownerdata', async function (req, res, next) {
     let data = req.query
     console.log(data)
+    let coinbase = await setAddress();
     message.methods.displayOwner(data.id)
         .call({ from: data.waddress ? data.waddress : coinbase }).then((tx) => {
             console.log("tx", tx)
@@ -196,6 +203,7 @@ router.get('/ownerdata', async function (req, res, next) {
 });
 router.post('/previousOwner', async function (req, res, next) {
     let data = req.query;
+    let coinbase = await setAddress();
     message.methods.previousOwner()
         .call({ from: data.waddress ? data.waddress : coinbase }).then((tx) => {
             console.log("tx", tx)
@@ -211,8 +219,9 @@ router.post('/upload', async function (req, res, next) {
         manid = req.body.id;
         fileBytes = req.files.report.data;
         console.log(fileBytes)
+        let coinbase = await setAddress();
         const result = await ipfs.add(fileBytes);
-        console.log("result", result.path);
+        console.log("result", result.path,coinbase);
         let response = await message.methods
             .setCertificate(manid, web3.utils.asciiToHex(result.path)).send({ from: coinbase, gas: 4721975 })
         console.log("response", response)
